@@ -13,11 +13,11 @@ require 'Blackjack.php';
 
 session_start();
 
-$blackjack=new Blackjack($player, $dealer,$deck);
+$blackjack=new Blackjack();
 
 $_SESSION["blackjack"] =$blackjack;
 
-//$test=$deck ->getCards();
+//$test=$deck ->getCards();g
 //var_dump($test);
 
 

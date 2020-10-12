@@ -1,20 +1,19 @@
 <?php
 declare(strict_types=1);
 
-//require ('Player.php');
-//require ('Deck.php');
 
-Class Blackjack {
+class Blackjack
+{
     private $player;
     private $dealer;
     private $deck;
 
-    public function __construct($player, $dealer, $deck)
+    public function __construct()
     {
-        $this->player = $player;
-        $this->dealer = $dealer;
-        $deck =new Deck;
+        $deck = new Deck;
         $deck->shuffle();
+        $this->player = new Player($deck);
+        $this->dealer = new Player($deck);
     }
 
 

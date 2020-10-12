@@ -1,24 +1,16 @@
 <?php
 declare(strict_types=1);
-//require('Deck.php');
 
 class Player
 {
     private array $cards;
     private bool $lost = FALSE;
 
-    public function __construct(array $cards, bool $lost, $deck)
+    public function __construct($deck)
     {
         for ($i = 0; $i < 2; $i++) {
-            array_push($cards, $deck[$i]);
-            $deck->drawCards();
+            array_push($this->cards, $deck->drawCard());
         }
-        $this->lost = $lost;
-    }
-
-
-    public function hit()
-    {
     }
 
     public function surrender()
