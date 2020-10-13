@@ -11,26 +11,43 @@ require 'Deck.php';
 require 'Player.php';
 require 'Blackjack.php';
 
-session_start();
+
 
 //--------------------- Setting the game
 
 $blackjack=new Blackjack();
 
-$_SESSION["blackjack"] =$blackjack;
+session_start();
+if (!isset($_SESSION["blackjack"] )){
+    $_SESSION["blackjack"]="";
+}
+if (isset ($blackjack)){
+    $_SESSION["blackjack"] =$blackjack;
+}
 
+$deck=$blackjack->getDeck();
 $player=$blackjack->getPlayer();
 $dealer=$blackjack->getDealer();
 
+
+
 var_dump($player);
 
-//foreach($player->cards->getCards() AS $card) {
-//    echo $card->getUnicodeCharacter(true);
-//    echo '<br>';
-//}
-
-//var_dump($player->hit());
 //--------------------- Actions
+
+//---- Hit
+
+if (isset ($_POST['hit'])){
+    if(isset($_SESSION["blackjack"])) {
+        $blackjack=$_SESSION["blackjack"];
+        $deck=$deck=$blackjack->getDeck();
+        $player=$blackjack->getPlayer();
+        $dealer=$blackjack->getDealer();
+        $player->hit($deck);
+    }
+
+
+}
 
 
 
@@ -51,7 +68,31 @@ var_dump($player);
 <body>
 
 <section class="container">
+    <section>
 
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Player</h1>
+                <h2>Your cards : </C></h2>
+                <?php foreach ($player->getCards() AS $card): ?>
+                <p><?php
+                    echo $card->getUnicodeCharacter(true);
+                    echo '<br>';?> </p>
+                <?php endforeach; ?>
+            </div>
+            <div class="col-md-6">
+                <h1>Dealer</h1>
+                <h2>Cards : </C></h2>
+                <?php foreach ($dealer->getCards() AS $card): ?>
+                    <p><?php
+                        echo $card->getUnicodeCharacter(true);
+                        echo '<br>';?> </p>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+
+    </section>
     <form method="post" action="index.php">
 
         <button type="submit" name="hit" class="btn btn-primary">Hit</button>

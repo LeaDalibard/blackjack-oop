@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 class Player
 {
-    private array $cards=array();
+    private array $cards = array();
     private bool $lost = FALSE;
 
     public function __construct($deck)
     {
         for ($i = 0; $i < 2; $i++) {
-                   array_push($this->cards, $deck->drawCard());
-               }
+            array_push($this->cards, $deck->drawCard());
+        }
     }
 
 
@@ -25,9 +25,10 @@ class Player
     }
 
 
-    public function hit()
+    public function hit($deck)
     {
-
+        array_push($this->cards, $deck->drawCard());
+        return $this->cards;
     }
 
 
