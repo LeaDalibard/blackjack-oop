@@ -61,6 +61,7 @@ if (isset($_POST['action'])) {
                 echo 'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
             }
         }
+        else{ echo 'The dealer made : ' . $dealer->getScore() . '. Well done, you win !'; }
     } //---- Surrender
 
     elseif ($_POST['action'] === 'surrender') {
@@ -114,10 +115,12 @@ if (isset ($_POST['reset'])) {
             <div class="col-md-6">
                 <h1>Dealer</h1>
                 <h2>Cards : </C></h2>
+                <?php foreach ($dealer->getCards() as $card): ?>
                 <p><?php
-                    echo $dealer->getCards()[0]->getUnicodeCharacter(true);
+                    //echo $dealer->getCards()[0]->getUnicodeCharacter(true);
+                    echo $card->getUnicodeCharacter(true);
                     echo '<br>'; ?> </p>
-
+                <?php endforeach; ?>
             </div>
             <div>
                 <h1>Scores :</h1>
