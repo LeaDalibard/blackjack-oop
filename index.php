@@ -47,15 +47,25 @@ if (isset ($_POST['hit'])) {
         $dealer = $_SESSION["blackjack"]->getDealer();
         $player->hit($deck);
         $_SESSION["blackjack"]->setPlayer($player);
-
-
+        $_SESSION["score"] = $player->getScore();
+        if( $_SESSION["score"]>21){
+            $player->hasLost();
+        }
     }
-} elseif (isset ($_POST['stand'])) {
+}
+
+//---- Stand
+
+elseif (isset ($_POST['stand'])) {
     if (isset($_SESSION["blackjack"])) {
         $deck = $_SESSION["blackjack"]->getDeck();
         $player = $_SESSION["blackjack"]->getPlayer();
         $dealer = $_SESSION["blackjack"]->getDealer();
-
+        if ($dealer->getScore()<15){
+            $dealer->hit($deck);
+        }
+        $_SESSION["blackjack"]->setDealer($dealer);
+        echo $dealer->getScore();
     }
 } elseif (isset ($_POST['surrender'])) {
     if (isset($_SESSION["blackjack"])) {
@@ -63,7 +73,6 @@ if (isset ($_POST['hit'])) {
         $player = $_SESSION["blackjack"]->getPlayer();
         $dealer = $_SESSION["blackjack"]->getDealer();
         $player->hasLost();
-        echo 'Too bad, you loose.';
     }
 }
 
@@ -114,8 +123,7 @@ if (isset ($_POST['reset'])) {
             </div>
             <div>
                 <h2>Score :</h2>
-                <p><?php
-                    echo $_SESSION["score"]; ?>
+                <p><?php if(isset($_SESSION["score"])){echo $_SESSION["score"];} ?>
                 </p>
             </div>
         </div>

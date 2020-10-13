@@ -48,6 +48,7 @@ class Player
     public function hasLost()
     {
         $this->lost=true;
+        echo 'Too bad, you loose.';
     }
 
 }
