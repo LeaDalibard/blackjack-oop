@@ -28,6 +28,9 @@ class Player
     public function hit($deck)
     {
         array_push($this->cards, $deck->drawCard());
+        if(  $this->getScore()>21){
+            $this->hasLost();
+        }
         return $this->cards;
     }
 
@@ -48,7 +51,7 @@ class Player
     public function hasLost()
     {
         $this->lost=true;
-        echo 'Too bad, you loose.';
+        echo 'Loosing';
     }
 
 }

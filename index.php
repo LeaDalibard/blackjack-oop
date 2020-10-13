@@ -49,9 +49,6 @@ if (isset ($_POST['hit'])) {
         $player->hit($deck);
         $_SESSION["blackjack"]->setPlayer($player);
         $_SESSION["score"] = $player->getScore();
-        if( $_SESSION["score"]>21){
-            $player->hasLost();
-        }
     }
 }
 
