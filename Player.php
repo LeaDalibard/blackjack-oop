@@ -13,9 +13,21 @@ class Player
                }
     }
 
-    public function hit()
+
+    public function getCards()
     {
         return $this->cards;
+    }
+
+    public function setCards($cards)
+    {
+        $this->cards = $cards;
+    }
+
+
+    public function hit()
+    {
+
     }
 
 
@@ -30,5 +42,6 @@ class Player
     public function hasLost()
     {
     }
+
 }
 

@@ -13,6 +13,8 @@ require 'Blackjack.php';
 
 session_start();
 
+//--------------------- Setting the game
+
 $blackjack=new Blackjack();
 
 $_SESSION["blackjack"] =$blackjack;
@@ -20,8 +22,17 @@ $_SESSION["blackjack"] =$blackjack;
 $player=$blackjack->getPlayer();
 $dealer=$blackjack->getDealer();
 
+var_dump($player);
 
-var_dump($player->hit());
+//foreach($player->cards->getCards() AS $card) {
+//    echo $card->getUnicodeCharacter(true);
+//    echo '<br>';
+//}
+
+//var_dump($player->hit());
+//--------------------- Actions
+
+
 
 ?>
 
