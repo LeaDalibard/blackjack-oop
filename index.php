@@ -9,6 +9,7 @@ require 'Suit.php';
 require 'Card.php';
 require 'Deck.php';
 require 'Player.php';
+require  'Dealer.php';
 require 'Blackjack.php';
 
 
@@ -61,9 +62,7 @@ elseif (isset ($_POST['stand'])) {
         $deck = $_SESSION["blackjack"]->getDeck();
         $player = $_SESSION["blackjack"]->getPlayer();
         $dealer = $_SESSION["blackjack"]->getDealer();
-        if ($dealer->getScore()<15){
-            $dealer->hit($deck);
-        }
+        $dealer->hit($deck);
         $_SESSION["blackjack"]->setDealer($dealer);
         echo $dealer->getScore();
     }
