@@ -17,7 +17,11 @@ $blackjack=new Blackjack();
 
 $_SESSION["blackjack"] =$blackjack;
 
-//$test=$deck ->getCards();g
-//var_dump($test);
+$player=$blackjack->getPlayer();
+$dealer=$blackjack->getDealer();
+
+
+var_dump($player->hit());
+
 
 
