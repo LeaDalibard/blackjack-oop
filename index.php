@@ -70,6 +70,7 @@ else{
 
     elseif ($_POST['action'] === 'surrender') {
         $player->hasLost();
+        echo "Too bad, play again !";
     }
 }
 
