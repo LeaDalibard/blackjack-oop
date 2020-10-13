@@ -117,11 +117,10 @@ if (isset ($_POST['reset'])) {
             <div class="col-md-6">
                 <h1>Dealer</h1>
                 <h2>Cards : </C></h2>
-                <?php foreach ($dealer->getCards() as $card): ?>
                     <p><?php
-                        echo $card->getUnicodeCharacter(true);
+                        echo $dealer->getCards()[0]->getUnicodeCharacter(true);
                         echo '<br>'; ?> </p>
-                <?php endforeach; ?>
+
             </div>
             <div>
                 <h2>Score :</h2>
