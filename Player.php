@@ -13,6 +13,13 @@ class Player
         }
     }
 
+    public function isLost()
+    {
+        return $this->lost;
+    }
+
+
+
 
     public function getCards()
     {
