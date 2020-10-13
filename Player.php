@@ -58,7 +58,6 @@ class Player
     public function hasLost()
     {
         $this->lost=true;
-        echo 'Loosing';
     }
 
 }

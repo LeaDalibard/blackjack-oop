@@ -41,21 +41,27 @@ $_SESSION["score"] = $player->getScore();
 //---- Hit
 
 if (isset ($_POST['hit'])) {
-    //$deck = $_SESSION["blackjack"]->getDeck();
-    //        $player = $_SESSION["blackjack"]->getPlayer();
-    //        $dealer = $_SESSION["blackjack"]->getDealer();
-
         $player->hit($deck);
         $_SESSION["score"] = $player->getScore();
-        var_dump($player->isLost());
+        if ($player->isLost()==true){
+    echo 'You exceed 21, you loose, play again !';
+    }
+
 }
 
 //---- Stand
 
 elseif (isset ($_POST['stand'])) {
         $dealer->hit($deck);
-        echo $dealer->getScore();
-        var_dump($dealer->isLost());
+        if ($dealer->isLost()==false){
+            if ($player->getScore()<$dealer->getScore()){
+                echo 'The dealer made : '.$dealer->getScore().'. Too bad, you loose !';
+            }
+            elseif ($player->getScore()==$dealer->getScore()){
+                echo 'Ex Aequo ... The dealer win, play again !';
+            }
+            else {echo 'The dealer made : '.$dealer->getScore().'. Well done, you win !';}
+        }
 }
 
 //---- Surrender
@@ -69,10 +75,13 @@ elseif (isset ($_POST['surrender'])) {
 if (isset ($_POST['reset'])) {
     session_unset();
     $_SESSION["blackjack"] = new Blackjack();
-    $deck = $_SESSION["blackjack"]->getDeck();
-    $player = $_SESSION["blackjack"]->getPlayer();
-    $dealer = $_SESSION["blackjack"]->getDealer();
+    $game=$_SESSION["blackjack"];
+
+    $deck =$game->getDeck();
+    $player = $game->getPlayer();
+    $dealer = $game->getDealer();
     $_SESSION["score"] = $player->getScore();
+
 }
 
 
