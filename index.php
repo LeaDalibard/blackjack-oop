@@ -67,7 +67,11 @@ elseif (isset ($_POST['stand'])) {
         $_SESSION["blackjack"]->setDealer($dealer);
         echo $dealer->getScore();
     }
-} elseif (isset ($_POST['surrender'])) {
+}
+
+//---- Surrender
+
+elseif (isset ($_POST['surrender'])) {
     if (isset($_SESSION["blackjack"])) {
         $deck = $_SESSION["blackjack"]->getDeck();
         $player = $_SESSION["blackjack"]->getPlayer();
@@ -80,6 +84,11 @@ elseif (isset ($_POST['stand'])) {
 //--------------------- Reset
 if (isset ($_POST['reset'])) {
     session_unset();
+    $_SESSION["blackjack"] = new Blackjack();
+    $deck = $_SESSION["blackjack"]->getDeck();
+    $player = $_SESSION["blackjack"]->getPlayer();
+    $dealer = $_SESSION["blackjack"]->getDealer();
+    $_SESSION["score"] = $player->getScore();
 }
 
 
