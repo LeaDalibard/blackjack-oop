@@ -28,52 +28,40 @@ if (!isset($_SESSION["blackjack"])) {
     $_SESSION["blackjack"] = new Blackjack();
 }
 
-$deck = $_SESSION["blackjack"]->getDeck();
-$player = $_SESSION["blackjack"]->getPlayer();
-$dealer = $_SESSION["blackjack"]->getDealer();
+$game=$_SESSION["blackjack"];
+
+$deck =$game->getDeck();
+$player = $game->getPlayer();
+$dealer = $game->getDealer();
 $_SESSION["score"] = $player->getScore();
 
-
-//$player->getScore();
-//var_dump($player);
 
 //--------------------- Actions
 
 //---- Hit
 
 if (isset ($_POST['hit'])) {
-    if (isset($_SESSION["blackjack"])) {
-        $deck = $_SESSION["blackjack"]->getDeck();
-        $player = $_SESSION["blackjack"]->getPlayer();
-        $dealer = $_SESSION["blackjack"]->getDealer();
+    //$deck = $_SESSION["blackjack"]->getDeck();
+    //        $player = $_SESSION["blackjack"]->getPlayer();
+    //        $dealer = $_SESSION["blackjack"]->getDealer();
+
         $player->hit($deck);
-        $_SESSION["blackjack"]->setPlayer($player);
         $_SESSION["score"] = $player->getScore();
-    }
+        var_dump($player->isLost());
 }
 
 //---- Stand
 
 elseif (isset ($_POST['stand'])) {
-    if (isset($_SESSION["blackjack"])) {
-        $deck = $_SESSION["blackjack"]->getDeck();
-        $player = $_SESSION["blackjack"]->getPlayer();
-        $dealer = $_SESSION["blackjack"]->getDealer();
         $dealer->hit($deck);
-        $_SESSION["blackjack"]->setDealer($dealer);
         echo $dealer->getScore();
-    }
+        var_dump($dealer->isLost());
 }
 
 //---- Surrender
 
 elseif (isset ($_POST['surrender'])) {
-    if (isset($_SESSION["blackjack"])) {
-        $deck = $_SESSION["blackjack"]->getDeck();
-        $player = $_SESSION["blackjack"]->getPlayer();
-        $dealer = $_SESSION["blackjack"]->getDealer();
         $player->hasLost();
-    }
 }
 
 
