@@ -30,7 +30,6 @@ class Deck
         shuffle($this->cards);
     }
 
-    /** @return Card[] */
     public function getCards() : array
     {
         return $this->cards;

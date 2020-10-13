@@ -12,40 +12,66 @@ require 'Player.php';
 require 'Blackjack.php';
 
 
-
 //--------------------- Setting the game
 
 
-
 session_start();
-if (!isset($_SESSION["blackjack"] )){
-    $_SESSION["blackjack"]=new Blackjack();
+
+//-------------- Putting score in a session variable
+
+if (!isset($_SESSION["score"])) {
+    $_SESSION["score"] = 0;
 }
 
-$deck=$_SESSION["blackjack"]->getDeck();
-$player=$_SESSION["blackjack"]->getPlayer();
-$dealer=$_SESSION["blackjack"]->getDealer();
+if (!isset($_SESSION["blackjack"])) {
+    $_SESSION["blackjack"] = new Blackjack();
+}
+
+$deck = $_SESSION["blackjack"]->getDeck();
+$player = $_SESSION["blackjack"]->getPlayer();
+$dealer = $_SESSION["blackjack"]->getDealer();
+$_SESSION["score"] = $player->getScore();
 
 
-var_dump($player);
+//$player->getScore();
+//var_dump($player);
 
 //--------------------- Actions
 
 //---- Hit
 
-if (isset ($_POST['hit'])){
-    if(isset($_SESSION["blackjack"])) {
-        $deck=$_SESSION["blackjack"]->getDeck();
-        $player=$_SESSION["blackjack"]->getPlayer();
-        $dealer=$_SESSION["blackjack"]->getDealer();
+if (isset ($_POST['hit'])) {
+    if (isset($_SESSION["blackjack"])) {
+        $deck = $_SESSION["blackjack"]->getDeck();
+        $player = $_SESSION["blackjack"]->getPlayer();
+        $dealer = $_SESSION["blackjack"]->getDealer();
         $player->hit($deck);
+        $_SESSION["blackjack"]->setPlayer($player);
+
+
+    }
+} elseif (isset ($_POST['stand'])) {
+    if (isset($_SESSION["blackjack"])) {
+        $deck = $_SESSION["blackjack"]->getDeck();
+        $player = $_SESSION["blackjack"]->getPlayer();
+        $dealer = $_SESSION["blackjack"]->getDealer();
+
+    }
+} elseif (isset ($_POST['surrender'])) {
+    if (isset($_SESSION["blackjack"])) {
+        $deck = $_SESSION["blackjack"]->getDeck();
+        $player = $_SESSION["blackjack"]->getPlayer();
+        $dealer = $_SESSION["blackjack"]->getDealer();
+        $player->hasLost();
+        echo 'Too bad, you loose.';
     }
 }
 
-if (isset ($_POST['reset'])){
-    session_unset();
-    }
 
+//--------------------- Reset
+if (isset ($_POST['reset'])) {
+    session_unset();
+}
 
 
 ?>
@@ -71,20 +97,26 @@ if (isset ($_POST['reset'])){
             <div class="col-md-6">
                 <h1>Player</h1>
                 <h2>Your cards : </C></h2>
-                <?php foreach ($player->getCards() AS $card): ?>
-                <p><?php
-                    echo $card->getUnicodeCharacter(true);
-                    echo '<br>';?> </p>
+                <?php foreach ($player->getCards() as $card): ?>
+                    <p><?php
+                        echo $card->getUnicodeCharacter(true);
+                        echo '<br>'; ?> </p>
                 <?php endforeach; ?>
             </div>
             <div class="col-md-6">
                 <h1>Dealer</h1>
                 <h2>Cards : </C></h2>
-                <?php foreach ($dealer->getCards() AS $card): ?>
+                <?php foreach ($dealer->getCards() as $card): ?>
                     <p><?php
                         echo $card->getUnicodeCharacter(true);
-                        echo '<br>';?> </p>
+                        echo '<br>'; ?> </p>
                 <?php endforeach; ?>
+            </div>
+            <div>
+                <h2>Score :</h2>
+                <p><?php
+                    echo $_SESSION["score"]; ?>
+                </p>
             </div>
         </div>
 
@@ -101,9 +133,6 @@ if (isset ($_POST['reset'])){
     </form>
 
 </section>
-
-
-
 
 
 <!-- Optional JavaScript -->
