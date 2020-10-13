@@ -34,4 +34,23 @@ class Blackjack
     }
 
 
+    public function setPlayer($player)
+    {
+        $this->player = $player;
+    }
+
+
+    public function setDealer($dealer)
+    {
+        $this->dealer = $dealer;
+    }
+
+
+    public function setDeck($deck)
+    {
+        $this->deck = $deck;
+    }
+
+
+
 }
