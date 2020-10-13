@@ -15,20 +15,16 @@ require 'Blackjack.php';
 
 //--------------------- Setting the game
 
-$blackjack=new Blackjack();
+
 
 session_start();
 if (!isset($_SESSION["blackjack"] )){
-    $_SESSION["blackjack"]="";
-}
-if (isset ($blackjack)){
-    $_SESSION["blackjack"] =$blackjack;
+    $_SESSION["blackjack"]=new Blackjack();
 }
 
-$deck=$blackjack->getDeck();
-$player=$blackjack->getPlayer();
-$dealer=$blackjack->getDealer();
-
+$deck=$_SESSION["blackjack"]->getDeck();
+$player=$_SESSION["blackjack"]->getPlayer();
+$dealer=$_SESSION["blackjack"]->getDealer();
 
 
 var_dump($player);
@@ -39,15 +35,16 @@ var_dump($player);
 
 if (isset ($_POST['hit'])){
     if(isset($_SESSION["blackjack"])) {
-        $blackjack=$_SESSION["blackjack"];
-        $deck=$deck=$blackjack->getDeck();
-        $player=$blackjack->getPlayer();
-        $dealer=$blackjack->getDealer();
+        $deck=$_SESSION["blackjack"]->getDeck();
+        $player=$_SESSION["blackjack"]->getPlayer();
+        $dealer=$_SESSION["blackjack"]->getDealer();
         $player->hit($deck);
     }
-
-
 }
+
+if (isset ($_POST['reset'])){
+    session_unset();
+    }
 
 
 
@@ -98,6 +95,7 @@ if (isset ($_POST['hit'])){
         <button type="submit" name="hit" class="btn btn-primary">Hit</button>
         <button type="submit" name="stand" class="btn btn-primary">Stand</button>
         <button type="submit" name="surrender" class="btn btn-primary">Surrender</button>
+        <button type="submit" name="reset" class="btn btn-primary">Reset</button>
 
 
     </form>

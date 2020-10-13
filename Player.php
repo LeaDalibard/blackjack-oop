@@ -6,8 +6,8 @@ class Player
     private array $cards = array();
     private bool $lost = FALSE;
 
-    public function __construct($deck)
-    {
+    public function __construct( Deck $deck)
+    {$this->cards=[];
         for ($i = 0; $i < 2; $i++) {
             array_push($this->cards, $deck->drawCard());
         }
@@ -42,6 +42,7 @@ class Player
 
     public function hasLost()
     {
+        $this->lost=true;
     }
 
 }
