@@ -9,7 +9,7 @@ require 'Suit.php';
 require 'Card.php';
 require 'Deck.php';
 require 'Player.php';
-require  'Dealer.php';
+require 'Dealer.php';
 require 'Blackjack.php';
 
 
@@ -28,9 +28,9 @@ if (!isset($_SESSION["blackjack"])) {
     $_SESSION["blackjack"] = new Blackjack();
 }
 
-$game=$_SESSION["blackjack"];
+$game = $_SESSION["blackjack"];
 
-$deck =$game->getDeck();
+$deck = $game->getDeck();
 $player = $game->getPlayer();
 $dealer = $game->getDealer();
 $_SESSION["score"] = $player->getScore();
@@ -39,45 +39,42 @@ $_SESSION["score"] = $player->getScore();
 //--------------------- Actions
 
 //---- Hit
+if (isset($_POST['action'])) {
 
-if (isset ($_POST['hit'])) {
+    if ($_POST['action'] === 'hit') {
         $player->hit($deck);
         $_SESSION["score"] = $player->getScore();
-        if ($player->isLost()==true){
-    echo 'You exceed 21, you loose, play again !';
-    }
-
-}
-
-//---- Stand
-
-elseif (isset ($_POST['stand'])) {
-        $dealer->hit($deck);
-        if ($dealer->isLost()==false){
-            if ($player->getScore()<$dealer->getScore()){
-                echo 'The dealer made : '.$dealer->getScore().'. Too bad, you loose !';
-            }
-            elseif ($player->getScore()==$dealer->getScore()){
-                echo 'Ex Aequo ... The dealer win, play again !';
-            }
-            else {echo 'The dealer made : '.$dealer->getScore().'. Well done, you win !';}
+        if ($player->isLost() == true) {
+            echo 'You exceed 21, you loose, play again !';
         }
-}
 
-//---- Surrender
+    } //---- Stand
 
-elseif (isset ($_POST['surrender'])) {
+    elseif ($_POST['action'] === 'stand') {
+        $dealer->hit($deck);
+        if ($dealer->isLost() == false) {
+            if ($player->getScore() < $dealer->getScore()) {
+                echo 'The dealer made : ' . $dealer->getScore() . '. Too bad, you loose !';
+            } elseif ($player->getScore() == $dealer->getScore()) {
+                echo 'Ex Aequo ... The dealer win, play again !';
+            } else {
+                echo 'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
+            }
+        }
+    } //---- Surrender
+
+    elseif ($_POST['action'] === 'surrender') {
         $player->hasLost();
+    }
 }
-
 
 //--------------------- Reset
 if (isset ($_POST['reset'])) {
     session_unset();
     $_SESSION["blackjack"] = new Blackjack();
-    $game=$_SESSION["blackjack"];
+    $game = $_SESSION["blackjack"];
 
-    $deck =$game->getDeck();
+    $deck = $game->getDeck();
     $player = $game->getPlayer();
     $dealer = $game->getDealer();
     $_SESSION["score"] = $player->getScore();
@@ -117,15 +114,30 @@ if (isset ($_POST['reset'])) {
             <div class="col-md-6">
                 <h1>Dealer</h1>
                 <h2>Cards : </C></h2>
-                    <p><?php
-                        echo $dealer->getCards()[0]->getUnicodeCharacter(true);
-                        echo '<br>'; ?> </p>
+                <p><?php
+                    echo $dealer->getCards()[0]->getUnicodeCharacter(true);
+                    echo '<br>'; ?> </p>
 
             </div>
             <div>
-                <h2>Score :</h2>
-                <p><?php if(isset($_SESSION["score"])){echo $_SESSION["score"];} ?>
-                </p>
+                <h1>Scores :</h1>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h2>Player</h2>
+                        <p><?php if (isset($_SESSION["score"])) {
+                                echo $player->getScore();
+                            } ?>
+                    </div>
+                    <div class="col-md-6">
+                        <h2>Dealer</h2>
+                        <p><?php if (isset($_SESSION["score"])) {
+                                echo $dealer->getScore();
+                            } ?>
+                    </div>
+
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -133,9 +145,9 @@ if (isset ($_POST['reset'])) {
     </section>
     <form method="post" action="index.php">
 
-        <button type="submit" name="hit" class="btn btn-primary">Hit</button>
-        <button type="submit" name="stand" class="btn btn-primary">Stand</button>
-        <button type="submit" name="surrender" class="btn btn-primary">Surrender</button>
+        <button type="submit" name="action" value="hit" class="btn btn-primary">Hit</button>
+        <button type="submit" name="action" value="stand" class="btn btn-primary">Stand</button>
+        <button type="submit" name="action" value="surrender" class="btn btn-primary">Surrender</button>
         <button type="submit" name="reset" class="btn btn-primary">Reset</button>
 
 
