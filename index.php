@@ -39,7 +39,11 @@ $_SESSION["score"] = $player->getScore();
 //--------------------- Actions
 
 //---- Hit
-if (isset($_POST['action'])) {
+if (!isset($_POST['action'])){
+    echo 'The game starts';
+}
+
+else{
 
     if ($_POST['action'] === 'hit') {
         $player->hit($deck);
@@ -107,7 +111,7 @@ if (isset ($_POST['reset'])) {
                 <h1>Player</h1>
                 <h2>Your cards : </C></h2>
                 <?php foreach ($player->getCards() as $card): ?>
-                    <p><?php
+                    <p class="display-1"><?php
                         echo $card->getUnicodeCharacter(true);
                         echo '<br>'; ?> </p>
                 <?php endforeach; ?>
@@ -116,7 +120,7 @@ if (isset ($_POST['reset'])) {
                 <h1>Dealer</h1>
                 <h2>Cards : </C></h2>
                 <?php foreach ($dealer->getCards() as $card): ?>
-                <p><?php
+                <p class="display-1"><?php
                     //echo $dealer->getCards()[0]->getUnicodeCharacter(true);
                     echo $card->getUnicodeCharacter(true);
                     echo '<br>'; ?> </p>
