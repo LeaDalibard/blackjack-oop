@@ -42,7 +42,7 @@ if (!isset($_POST['action'])) {
         $player->hit($deck);
         $_SESSION["score"] = $player->getScore();
         if ($player->isLost() == true) {
-            $statusMessage =  'You exceed 21, you loose!';
+            $statusMessage = 'You exceed 21, you loose!';
         }
 
     } //---- Stand
@@ -51,24 +51,24 @@ if (!isset($_POST['action'])) {
         $dealer->hit($deck);
         if ($dealer->isLost() == false) {
             if ($player->getScore() < $dealer->getScore()) {
-                $statusMessage =  'The dealer made : ' . $dealer->getScore() . '. Too bad, you loose !';
+                $statusMessage = 'The dealer made : ' . $dealer->getScore() . '. Too bad, you loose !';
                 $player->hasLost();
             } elseif ($player->getScore() == $dealer->getScore()) {
-                $statusMessage =  'Ex Aequo ... The dealer win!';
+                $statusMessage = 'Ex Aequo ... The dealer win!';
                 $player->hasLost();
             } else {
-                $statusMessage =  'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
+                $statusMessage = 'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
                 $dealer->hasLost();
             }
         } else {
-            $statusMessage =  'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
+            $statusMessage = 'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
             $dealer->hasLost();
         }
     } //---- Surrender
 
     elseif ($_POST['action'] === 'surrender') {
         $player->hasLost();
-        $statusMessage =  "Too bad!";
+        $statusMessage = "Too bad!";
     }
 }
 
@@ -121,12 +121,17 @@ if (isset ($_POST['reset'])) {
             <div class="col-md-6">
                 <h1>Dealer</h1>
                 <h2>Cards : </C></h2>
-                <?php foreach ($dealer->getCards() as $card): ?>
                     <p class="display-1"><?php
-                        //echo $dealer->getCards()[0]->getUnicodeCharacter(true);
+                        if ($player->isLost() == true || $dealer->isLost() == true) {
+                            foreach ($dealer->getCards() as $card){
                         echo $card->getUnicodeCharacter(true);
-                        echo '<br>'; ?> </p>
-                <?php endforeach; ?>
+                        echo '<br>';
+                            }}
+                        else{
+                            echo $dealer->getCards()[0]->getUnicodeCharacter(true);
+                        }
+
+                        ?> </p>
             </div>
             <div>
                 <h1>Scores :</h1>
@@ -136,16 +141,16 @@ if (isset ($_POST['reset'])) {
                         <h2>Player</h2>
                         <p><?php if (isset($_SESSION["score"])) {
                                 echo $player->getScore();
-                            } ?>
+                            } ?></p>
                     </div>
                     <div class="col-md-6">
-                        <h2>Dealer</h2>
-                        <p><?php if (isset($_SESSION["score"])) {
-                                echo $dealer->getScore();
-                            } ?>
+                        <?php if ($player->isLost() == true || $dealer->isLost() == true) {
+                            echo '<h2>Dealer</h2> <p>'.$dealer->getScore().'</p>';
+                        }
+                        ?>
+
                     </div>
 
-                    </p>
                 </div>
             </div>
         </div>
@@ -155,6 +160,7 @@ if (isset ($_POST['reset'])) {
     <form method="post" action="index.php">
         <?php if ($player->isLost() == true || $dealer->isLost() == true) {
             echo "End of the game, play again !";
+
         } else {
             echo '<button type="submit" name="action" value="hit" class="btn btn-primary">Hit</button>
         <button type="submit" name="action" value="stand" class="btn btn-primary">Stand</button>
