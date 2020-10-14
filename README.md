@@ -89,7 +89,7 @@ All classes are ready, now you just need to write some minimal glue. The final r
 - [x] 5. End of the game: destroy the current `blackjack` variable so the game restarts.
     
 # Nice to have
-- Implement a betting system
+- [x] Implement a betting system
     - Every new player (new session) starts with 100 chips
     - After the player gets his 2 first cards every round ask how much he wants to bet. He needs to bet at least 5 chips. 
      - If the player wins the bet he gains double the amount of chips.
