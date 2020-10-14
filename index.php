@@ -35,14 +35,14 @@ $statusMessage = "";
 
 //---- Hit
 if (!isset($_POST['action'])) {
-    $statusMessage = 'The game starts';
+    $statusMessage = '<div class="alert alert-info" role="alert">The game starts</div>';
 } else {
 
     if ($_POST['action'] === 'hit') {
         $player->hit($deck);
         $_SESSION["score"] = $player->getScore();
         if ($player->isLost() == true) {
-            $statusMessage = 'You exceed 21, you loose!';
+            $statusMessage = '<div class="alert alert-info" role="alert">You exceed 21, you loose!</div>';
         }
 
     } //---- Stand
@@ -51,24 +51,24 @@ if (!isset($_POST['action'])) {
         $dealer->hit($deck);
         if ($dealer->isLost() == false) {
             if ($player->getScore() < $dealer->getScore()) {
-                $statusMessage = 'The dealer made : ' . $dealer->getScore() . '. Too bad, you loose !';
+                $statusMessage = '<div class="alert alert-info" role="alert">The dealer made : ' . $dealer->getScore() . '. Too bad, you loose !</div>';
                 $player->hasLost();
             } elseif ($player->getScore() == $dealer->getScore()) {
-                $statusMessage = 'Ex Aequo ... The dealer win!';
+                $statusMessage = '<div class="alert alert-info" role="alert">Ex Aequo ... The dealer win!</div>';
                 $player->hasLost();
             } else {
-                $statusMessage = 'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
+                $statusMessage = '<div class="alert alert-info" role="alert">The dealer made : ' . $dealer->getScore() . '. Well done, you win !</div>';
                 $dealer->hasLost();
             }
         } else {
-            $statusMessage = 'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
+            $statusMessage = '<div class="alert alert-info" role="alert">The dealer made : ' . $dealer->getScore() . '. Well done, you win !</div>';
             $dealer->hasLost();
         }
     } //---- Surrender
 
     elseif ($_POST['action'] === 'surrender') {
         $player->hasLost();
-        $statusMessage = "Too bad!";
+        $statusMessage = '<div class="alert alert-info" role="alert">Too bad!</div>';
     }
 }
 
