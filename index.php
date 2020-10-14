@@ -24,6 +24,9 @@ if (!isset($_SESSION["blackjack"])) {
 if (!isset($_SESSION["chip"])) {
     $_SESSION["chip"] = 100;
 }
+if (!isset($_SESSION["bet"])) {
+    $_SESSION["bet"] = 0;
+}
 $game = $_SESSION["blackjack"];
 $chip = $_SESSION["chip"];
 
@@ -33,6 +36,12 @@ $dealer = $game->getDealer();
 
 $statusMessage = "";
 
+//--------------------- Adding bet
+
+if (isset( $_POST['bet'] )){
+    $_SESSION["bet"]=$_POST['bet'];
+    $chip=$_SESSION['chip'];
+}
 
 //--------------------- Actions
 
@@ -56,6 +65,7 @@ if (!isset($_POST['action'])) {
             if ($player->getScore() < $dealer->getScore()) {
                 $statusMessage = '<div class="alert alert-info" role="alert">The dealer made : ' . $dealer->getScore() . '. Too bad, you loose !</div>';
                 $player->hasLost();
+
             } elseif ($player->getScore() == $dealer->getScore()) {
                 $statusMessage = '<div class="alert alert-info" role="alert">Ex Aequo ... The dealer win!</div>';
                 $player->hasLost();
@@ -75,6 +85,23 @@ if (!isset($_POST['action'])) {
     }
 }
 
+//---------------------Bet results
+
+if (isset($_POST['action'])){
+
+    if ($player->isLost() == true){
+        $chip=$chip-$_SESSION["bet"];
+        $_SESSION["chip"]=$chip;
+    }
+    if($dealer->isLost() == true){
+
+        $chip+=2*($_SESSION["bet"]);
+        $_SESSION["chip"]=$chip;
+    }
+}
+
+
+echo $_SESSION["chip"];
 //--------------------- Reset
 
 
@@ -143,32 +170,12 @@ if (isset ($_POST['reset'])) {
             <p><?php echo $chip; ?></p>
             <form method="post" action="index.php">
                 <label for="quantity">How much do you want to bet ?:</label>
-                <input type="number" id="bet" name="bet" min="5" max="<?php echo $chip; ?>">
-                <input type="submit">
+                <input type="number" id="bet" name="bet" value="<?php if (isset ($_SESSION["bet"])){echo $_SESSION["bet"] ;}  ?>" min="5" max="<?php echo $chip; ?>">
+                <input type="submit" name="submit" value="Bet">
             </form>
 
         </div>
 
-        <div>
-            <h2>Scores :</h2>
-            <div class="row">
-
-                <div class="col-md-6">
-                    <h3>Player</h3>
-                    <p><?php if (isset($_SESSION["score"])) {
-                            echo $player->getScore();
-                        } ?></p>
-                </div>
-                <div class="col-md-6">
-                    <?php if ($player->isLost() == true || $dealer->isLost() == true) {
-                        echo '<h3>Dealer</h3> <p>' . $dealer->getScore() . '</p>';
-                    }
-                    ?>
-
-                </div>
-
-            </div>
-        </div>
 
 
     </section>
@@ -187,6 +194,28 @@ if (isset ($_POST['reset'])) {
 
 
     </form>
+
+    <div>
+        <h2>Scores :</h2>
+        <div class="row">
+
+            <div class="col-md-6">
+                <h3>Player</h3>
+                <p><?php if (isset($_SESSION["score"])) {
+                        echo $player->getScore();
+                    } ?></p>
+            </div>
+            <div class="col-md-6">
+                <?php if ($player->isLost() == true || $dealer->isLost() == true) {
+                    echo '<h3>Dealer</h3> <p>' . $dealer->getScore() . '</p>';
+                }
+                ?>
+
+            </div>
+
+        </div>
+    </div>
+
 
 </section>
 
