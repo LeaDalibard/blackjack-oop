@@ -159,8 +159,7 @@ if (isset ($_POST['reset'])) {
     </section>
     <form method="post" action="index.php">
         <?php if ($player->isLost() == true || $dealer->isLost() == true) {
-            echo "End of the game, play again !";
-
+            echo "<p>End of the game, play again !</p>";
         } else {
             echo '<button type="submit" name="action" value="hit" class="btn btn-primary">Hit</button>
         <button type="submit" name="action" value="stand" class="btn btn-primary">Stand</button>
