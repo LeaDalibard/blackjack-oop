@@ -18,11 +18,6 @@ require 'Blackjack.php';
 
 session_start();
 
-//-------------- Putting score in a session variable
-
-if (!isset($_SESSION["score"])) {
-    $_SESSION["score"] = 0;
-}
 
 if (!isset($_SESSION["blackjack"])) {
     $_SESSION["blackjack"] = new Blackjack();
@@ -35,21 +30,19 @@ $player = $game->getPlayer();
 $dealer = $game->getDealer();
 $_SESSION["score"] = $player->getScore();
 
-
+$statusMessage = "";
 //--------------------- Actions
 
 //---- Hit
-if (!isset($_POST['action'])){
-    echo 'The game starts';
-}
-
-else{
+if (!isset($_POST['action'])) {
+    $statusMessage = 'The game starts';
+} else {
 
     if ($_POST['action'] === 'hit') {
         $player->hit($deck);
         $_SESSION["score"] = $player->getScore();
         if ($player->isLost() == true) {
-            echo 'You exceed 21, you loose, play again !';
+            $statusMessage =  'You exceed 21, you loose!';
         }
 
     } //---- Stand
@@ -58,19 +51,24 @@ else{
         $dealer->hit($deck);
         if ($dealer->isLost() == false) {
             if ($player->getScore() < $dealer->getScore()) {
-                echo 'The dealer made : ' . $dealer->getScore() . '. Too bad, you loose !';
+                $statusMessage =  'The dealer made : ' . $dealer->getScore() . '. Too bad, you loose !';
+                $player->hasLost();
             } elseif ($player->getScore() == $dealer->getScore()) {
-                echo 'Ex Aequo ... The dealer win, play again !';
+                $statusMessage =  'Ex Aequo ... The dealer win!';
+                $player->hasLost();
             } else {
-                echo 'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
+                $statusMessage =  'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
+                $dealer->hasLost();
             }
+        } else {
+            $statusMessage =  'The dealer made : ' . $dealer->getScore() . '. Well done, you win !';
+            $dealer->hasLost();
         }
-        else{ echo 'The dealer made : ' . $dealer->getScore() . '. Well done, you win !'; }
     } //---- Surrender
 
     elseif ($_POST['action'] === 'surrender') {
         $player->hasLost();
-        echo "Too bad, play again !";
+        $statusMessage =  "Too bad!";
     }
 }
 
@@ -107,7 +105,9 @@ if (isset ($_POST['reset'])) {
 
 <section class="container">
     <section>
-
+        <p> <?php echo $statusMessage ?></p>
+    </section>
+    <section>
         <div class="row">
             <div class="col-md-6">
                 <h1>Player</h1>
@@ -122,10 +122,10 @@ if (isset ($_POST['reset'])) {
                 <h1>Dealer</h1>
                 <h2>Cards : </C></h2>
                 <?php foreach ($dealer->getCards() as $card): ?>
-                <p class="display-1"><?php
-                    //echo $dealer->getCards()[0]->getUnicodeCharacter(true);
-                    echo $card->getUnicodeCharacter(true);
-                    echo '<br>'; ?> </p>
+                    <p class="display-1"><?php
+                        //echo $dealer->getCards()[0]->getUnicodeCharacter(true);
+                        echo $card->getUnicodeCharacter(true);
+                        echo '<br>'; ?> </p>
                 <?php endforeach; ?>
             </div>
             <div>
@@ -153,14 +153,14 @@ if (isset ($_POST['reset'])) {
 
     </section>
     <form method="post" action="index.php">
-        <?php if ($player->isLost() == true || $dealer->isLost() == true ) {
-            echo "End of the game, play again !";}
-            else{
-                echo '<button type="submit" name="action" value="hit" class="btn btn-primary">Hit</button>
+        <?php if ($player->isLost() == true || $dealer->isLost() == true) {
+            echo "End of the game, play again !";
+        } else {
+            echo '<button type="submit" name="action" value="hit" class="btn btn-primary">Hit</button>
         <button type="submit" name="action" value="stand" class="btn btn-primary">Stand</button>
         <button type="submit" name="action" value="surrender" class="btn btn-primary">Surrender</button>';
-            }
-         ?>
+        }
+        ?>
 
 
         <button type="submit" name="reset" class="btn btn-primary">Reset</button>
