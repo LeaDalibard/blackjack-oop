@@ -42,6 +42,29 @@ if (isset($_POST['bet'])) {
     $_SESSION["bet"] = $_POST['bet'];
     $chip = $_SESSION['chip'];
 }
+//--------------------- First turn rule
+const AUTO_WIN=10;
+const AUTO_LOOSE=5;
+//if ( $player->getScore()==21 || $dealer->getScore()!=21){
+//    $dealer->hasLost();
+//    $statusMessage = '<div class="alert alert-info" role="alert">You win already, congrats!</div>';
+//
+//    $chip += AUTO_WIN ;
+//    $_SESSION["chip"] = $chip;
+//}
+//if ( $player->getScore()!=21 || $dealer->getScore()==21){
+//    $player->hasLost();
+//    $chip += -AUTO_LOOSE ;
+//    $_SESSION["chip"] = $chip;
+//    $statusMessage = '<div class="alert alert-info" role="alert">Oh no, you loose already!</div>';
+//}
+//if ( $player->getScore()==21 && $dealer->getScore()==21){
+//    $player->hasLost();
+//    $dealer->hasLost();
+//    $statusMessage = '<div class="alert alert-info" role="alert">It is a tie!</div>';
+//}
+
+
 
 //--------------------- Actions
 
