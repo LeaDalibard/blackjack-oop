@@ -3,14 +3,15 @@ declare(strict_types=1);
 
 class Player
 {
-    private array $cards = array();
+    private array $cards = [];
     private bool $lost = FALSE;
 
     public function __construct( Deck $deck)
-    {$this->cards=[];
+    {
         for ($i = 0; $i < 2; $i++) {
             array_push($this->cards, $deck->drawCard());
         }
+        //also possible : array_push($this->cards, $deck->drawCard(), $deck->drawCard());
     }
 
     public function isLost()

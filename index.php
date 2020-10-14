@@ -45,24 +45,25 @@ if (isset($_POST['bet'])) {
 //--------------------- First turn rule
 const AUTO_WIN=10;
 const AUTO_LOOSE=5;
-//if ( $player->getScore()==21 || $dealer->getScore()!=21){
-//    $dealer->hasLost();
-//    $statusMessage = '<div class="alert alert-info" role="alert">You win already, congrats!</div>';
-//
-//    $chip += AUTO_WIN ;
-//    $_SESSION["chip"] = $chip;
-//}
-//if ( $player->getScore()!=21 || $dealer->getScore()==21){
-//    $player->hasLost();
-//    $chip += -AUTO_LOOSE ;
-//    $_SESSION["chip"] = $chip;
-//    $statusMessage = '<div class="alert alert-info" role="alert">Oh no, you loose already!</div>';
-//}
-//if ( $player->getScore()==21 && $dealer->getScore()==21){
-//    $player->hasLost();
-//    $dealer->hasLost();
-//    $statusMessage = '<div class="alert alert-info" role="alert">It is a tie!</div>';
-//}
+// if ( $player->getScore()==21  && $dealer->getScore()!=21){
+//        $statusMessage = '<div class="alert alert-info" role="alert">You win already, congrats!</div>';
+//        $dealer->hasLost();
+//        $chip += AUTO_WIN ;
+//        $_SESSION["chip"] = $chip;
+//    }
+//    elseif ( $player->getScore()!=21 && $dealer->getScore()==21){
+//        $chip += -AUTO_LOOSE ;
+//        $_SESSION["chip"] = $chip;
+//        $statusMessage = '<div class="alert alert-info" role="alert">Oh no, you loose already!</div>';
+//        $player->hasLost();
+//    }
+//    elseif ( $player->getScore()==21 && $dealer->getScore()==21){
+//        $statusMessage = '<div class="alert alert-info" role="alert">It is a tie!</div>';
+//        $player->hasLost();
+//        $dealer->hasLost();
+//    }
+//   else{$statusMessage = '<div class="alert alert-info" role="alert">The game starts</div>';}
+
 
 
 
@@ -103,7 +104,9 @@ if (!isset($_POST['action'])) {
                 $statusMessage = '<div class="alert alert-info" role="alert">The dealer made : ' . $dealer->getScore() . '. Well done, you win !</div>';
                 $dealer->hasLost();
             }
-        } //---- Surrender
+        }
+        //-> will save line to put directly hasLost function in the hit function
+        //---- Surrender
 
         elseif ($_POST['action'] === 'surrender') {
             $player->hasLost();
@@ -134,6 +137,8 @@ if (isset($_POST['action'])) {
 
 
 if (isset ($_POST['reset'])) {
+
+    //session_destroy also possible
     unset($_SESSION["blackjack"]);
     unset($_SESSION["bet"]) ;
     $_SESSION["blackjack"] = new Blackjack();
@@ -143,6 +148,8 @@ if (isset ($_POST['reset'])) {
     $player = $game->getPlayer();
     $dealer = $game->getDealer();
     $_SESSION["score"] = $player->getScore();
+    //instead do a redirect to the page to go to a new page so new game, by header: header('location: index.php');
+    // careful => need to do  exit(); after to kill all the PHP process
 }
 
 
@@ -219,7 +226,7 @@ if (isset ($_POST['reset'])) {
         }
         ?>
 
-
+        <!-- easier way to write that without the echo thing with php if () : endif -->
         <button type="submit" name="reset" class="btn btn-primary">Reset</button>
 
 
@@ -262,7 +269,7 @@ if (isset ($_POST['reset'])) {
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 </body>
-</html>
 
+</html>
 
 

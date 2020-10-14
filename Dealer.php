@@ -12,3 +12,4 @@ class Dealer extends Player
     }
 
 }
+// while ($this->getScore()< 15){parent::hit($deck);}
