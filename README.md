@@ -32,34 +32,34 @@ To keep the code structured we are going to use classes and objects.
 
 ### Instructions
 #### Creating the base classes
-1. Create a class called `Player` in the file `Player.php`.
-1. Add 2 private properties:
+- [x] 1. Create a class called `Player` in the file `Player.php`. 
+- [x] 1. Add 2 private properties:
     - `cards` (array)
-    - `lost` (bool, default = false)
-1. Add a couple of empty public methods to this class: 
+    - `lost` (bool, default = false) 
+- [x] 1. Add a couple of empty public methods to this class: 
 	- `hit`
 	- `surrender`
 	- `getScore`
 	- `hasLost`
-1. Create a class called `Blackjack` in the file `Blackjack.php`
-1. Add 3 private properties 
+- [x] 1. Create a class called `Blackjack` in the file `Blackjack.php`
+- [x] 1. Add 3 private properties 
     - `player`
     - `dealer`
     - `deck`
-1. Add the following public methods:
+- [x] 1. Add the following public methods:
     - `getPlayer`
     - `getDealer`
-1. In the [constructor](https://www.php.net/manual/en/language.oop5.decon.php) do the following:
+- [x] 1. In the [constructor](https://www.php.net/manual/en/language.oop5.decon.php) do the following:
     - Instantiate the Player class twice, insert it into the `player` property and a `dealer` property.
     - Create a new [`deck` object](code/Deck.php) (code has already been written for you!).
     - Shuffle the cards with `shuffle` method on deck.
-1. In the [constructor](https://www.php.net/manual/en/language.oop5.decon.php) of the `Player` class;
+- [x] 1. In the [constructor](https://www.php.net/manual/en/language.oop5.decon.php) of the `Player` class;
     - Make it require the `Deck` object.
     - Pass this `Deck` from the `Blackjack` constructor.
     - Now draw 2 cards for the player. You have to use existing code for this from the Deck class.
-1. Save the instance of the enitre `Blackjack`object in the session (you're gonna need it)
-1. Use forms to send to the `index.php` page what the player's action is. (i.e. hit/stand/surrender)
-1. Use the class' methods to react to these actions.
+- [x] 1. Save the instance of the enitre `Blackjack`object in the session (you're gonna need it)
+- [x] 1. Use forms to send to the `index.php` page what the player's action is. (i.e. hit/stand/surrender)
+- [x] 1. Use the class' methods to react to these actions.
     - `hit` should add a card to the player. If this brings him above 21, set `lost` property to `true`.
     - `surrender` should make you surrender the game. (Dealer wins.)
         This sets the property `lost` in the `player` instance to true.
@@ -71,22 +71,22 @@ To keep the code structured we are going to use classes and objects.
 #### The dealer
 So far we are assuming the player and dealer play with the same rules, hence they share a class. There is of course an important difference: the dealer does keep playing with the function `hit` until he has at least 15.
 
-1. To change this behavior, we have are going [extend](https://www.php.net/manual/en/language.oop5.inheritance.php) the `player` class and extend it to a newly created `dealer` class. 
+- [x] 1. To change this behavior, we have are going [extend](https://www.php.net/manual/en/language.oop5.inheritance.php) the `player` class and extend it to a newly created `dealer` class. 
 
-1. Change the `Blackjack` class to create a new `dealer` object instead of a `player` object for the property of the dealer. 
+- [x] 1. Change the `Blackjack` class to create a new `dealer` object instead of a `player` object for the property of the dealer. 
 
-1. Now create a `hit` function that keeps drawing cards until the dealer has at least 15 points. The tricky part is that we also need the `lost` check we already had in the `hit` function of the player. We could just copy the code but duplicated code is never the solution, instead you can use the following code to call the old `hit` function:
+- [x] 1. Now create a `hit` function that keeps drawing cards until the dealer has at least 15 points. The tricky part is that we also need the `lost` check we already had in the `hit` function of the player. We could just copy the code but duplicated code is never the solution, instead you can use the following code to call the old `hit` function:
 
 ```parent::hit();```
 
 #### Final push
 All classes are ready, now you just need to write some minimal glue. The final result should be the following:
 
-1. When you the **hit** button call `hit` on player, then check the lost status of the player. 
-1. When you the **stand** button call `hit` on dealer, then check the lost status of the dealer. If he is not lost, compare scores to set the winner (If equal the dealer wins). 
-1. **Surrender**: the dealer auto wins.
-1. Always display on the page the scores of both players. If you have a winner, display it.
-1. End of the game: destroy the current `blackjack` variable so the game restarts.
+- [x] 1. When you the **hit** button call `hit` on player, then check the lost status of the player. 
+- [x] 1. When you the **stand** button call `hit` on dealer, then check the lost status of the dealer. If he is not lost, compare scores to set the winner (If equal the dealer wins). 
+- [x] 1. **Surrender**: the dealer auto wins.
+- [x] 1. Always display on the page the scores of both players. If you have a winner, display it.
+- [x] 1. End of the game: destroy the current `blackjack` variable so the game restarts.
     
 # Nice to have
 - Implement a betting system
