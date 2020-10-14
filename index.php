@@ -38,9 +38,9 @@ $statusMessage = "";
 
 //--------------------- Adding bet
 
-if (isset( $_POST['bet'] )){
-    $_SESSION["bet"]=$_POST['bet'];
-    $chip=$_SESSION['chip'];
+if (isset($_POST['bet'])) {
+    $_SESSION["bet"] = $_POST['bet'];
+    $chip = $_SESSION['chip'];
 }
 
 //--------------------- Actions
@@ -87,16 +87,16 @@ if (!isset($_POST['action'])) {
 
 //---------------------Bet results
 
-if (isset($_POST['action'])){
+if (isset($_POST['action'])) {
 
-    if ($player->isLost() == true){
-        $chip=$chip-$_SESSION["bet"];
-        $_SESSION["chip"]=$chip;
+    if ($player->isLost() == true) {
+        $chip = $chip - $_SESSION["bet"];
+        $_SESSION["chip"] = $chip;
     }
-    if($dealer->isLost() == true){
+    if ($dealer->isLost() == true) {
 
-        $chip+=2*($_SESSION["bet"]);
-        $_SESSION["chip"]=$chip;
+        $chip += 2 * ($_SESSION["bet"]);
+        $_SESSION["chip"] = $chip;
     }
 }
 
@@ -106,7 +106,7 @@ echo $_SESSION["chip"];
 
 
 if (isset ($_POST['reset'])) {
-    session_unset();
+    unset($_SESSION["blackjack"]);
     $_SESSION["blackjack"] = new Blackjack();
     $game = $_SESSION["blackjack"];
 
@@ -164,18 +164,19 @@ if (isset ($_POST['reset'])) {
                     ?> </p>
             </div>
         </div>
-        <div >
+        <div>
             <h2>Bet</h2>
             <h3>Your chips :</h3>
             <p><?php echo $chip; ?></p>
             <form method="post" action="index.php">
                 <label for="quantity">How much do you want to bet ?:</label>
-                <input type="number" id="bet" name="bet" value="<?php if (isset ($_SESSION["bet"])){echo $_SESSION["bet"] ;}  ?>" min="5" max="<?php echo $chip; ?>">
+                <input type="number" id="bet" name="bet" value="<?php if (isset ($_SESSION["bet"])) {
+                    echo $_SESSION["bet"];
+                } ?>" min="5" max="<?php echo $chip; ?>">
                 <input type="submit" name="submit" value="Bet">
             </form>
 
         </div>
-
 
 
     </section>
