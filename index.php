@@ -18,19 +18,22 @@ require 'Blackjack.php';
 
 session_start();
 
-
 if (!isset($_SESSION["blackjack"])) {
     $_SESSION["blackjack"] = new Blackjack();
 }
-
+if (!isset($_SESSION["chip"])) {
+    $_SESSION["chip"] = 100;
+}
 $game = $_SESSION["blackjack"];
+$chip = $_SESSION["chip"];
 
 $deck = $game->getDeck();
 $player = $game->getPlayer();
 $dealer = $game->getDealer();
-$_SESSION["score"] = $player->getScore();
 
 $statusMessage = "";
+
+
 //--------------------- Actions
 
 //---- Hit
@@ -110,8 +113,8 @@ if (isset ($_POST['reset'])) {
     <section>
         <div class="row">
             <div class="col-md-6">
-                <h1>Player</h1>
-                <h2>Your cards : </C></h2>
+                <h2>Player</h2>
+                <h3>Your cards : </h3>
                 <?php foreach ($player->getCards() as $card): ?>
                     <p class="display-1"><?php
                         echo $card->getUnicodeCharacter(true);
@@ -119,39 +122,51 @@ if (isset ($_POST['reset'])) {
                 <?php endforeach; ?>
             </div>
             <div class="col-md-6">
-                <h1>Dealer</h1>
-                <h2>Cards : </C></h2>
-                    <p class="display-1"><?php
-                        if ($player->isLost() == true || $dealer->isLost() == true) {
-                            foreach ($dealer->getCards() as $card){
-                        echo $card->getUnicodeCharacter(true);
-                        echo '<br>';
-                            }}
-                        else{
-                            echo $dealer->getCards()[0]->getUnicodeCharacter(true);
+                <h2>Dealer</h2>
+                <h3>Cards : </C></h3>
+                <p class="display-1"><?php
+                    if ($player->isLost() == true || $dealer->isLost() == true) {
+                        foreach ($dealer->getCards() as $card) {
+                            echo $card->getUnicodeCharacter(true);
+                            echo '<br>';
                         }
+                    } else {
+                        echo $dealer->getCards()[0]->getUnicodeCharacter(true);
+                    }
 
-                        ?> </p>
+                    ?> </p>
             </div>
-            <div>
-                <h1>Scores :</h1>
-                <div class="row">
+        </div>
+        <div >
+            <h2>Bet</h2>
+            <h3>Your chips :</h3>
+            <p><?php echo $chip; ?></p>
+            <form method="post" action="index.php">
+                <label for="quantity">How much do you want to bet ?:</label>
+                <input type="number" id="bet" name="bet" min="5" max="<?php echo $chip; ?>">
+                <input type="submit">
+            </form>
 
-                    <div class="col-md-6">
-                        <h2>Player</h2>
-                        <p><?php if (isset($_SESSION["score"])) {
-                                echo $player->getScore();
-                            } ?></p>
-                    </div>
-                    <div class="col-md-6">
-                        <?php if ($player->isLost() == true || $dealer->isLost() == true) {
-                            echo '<h2>Dealer</h2> <p>'.$dealer->getScore().'</p>';
-                        }
-                        ?>
+        </div>
 
-                    </div>
+        <div>
+            <h2>Scores :</h2>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <h3>Player</h3>
+                    <p><?php if (isset($_SESSION["score"])) {
+                            echo $player->getScore();
+                        } ?></p>
+                </div>
+                <div class="col-md-6">
+                    <?php if ($player->isLost() == true || $dealer->isLost() == true) {
+                        echo '<h3>Dealer</h3> <p>' . $dealer->getScore() . '</p>';
+                    }
+                    ?>
 
                 </div>
+
             </div>
         </div>
 
