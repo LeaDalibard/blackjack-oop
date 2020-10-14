@@ -75,6 +75,8 @@ else{
 }
 
 //--------------------- Reset
+
+
 if (isset ($_POST['reset'])) {
     session_unset();
     $_SESSION["blackjack"] = new Blackjack();
@@ -84,7 +86,6 @@ if (isset ($_POST['reset'])) {
     $player = $game->getPlayer();
     $dealer = $game->getDealer();
     $_SESSION["score"] = $player->getScore();
-
 }
 
 
@@ -152,10 +153,16 @@ if (isset ($_POST['reset'])) {
 
     </section>
     <form method="post" action="index.php">
-
-        <button type="submit" name="action" value="hit" class="btn btn-primary">Hit</button>
+        <?php if ($player->isLost() == true || $dealer->isLost() == true ) {
+            echo "End of the game, play again !";}
+            else{
+                echo '<button type="submit" name="action" value="hit" class="btn btn-primary">Hit</button>
         <button type="submit" name="action" value="stand" class="btn btn-primary">Stand</button>
-        <button type="submit" name="action" value="surrender" class="btn btn-primary">Surrender</button>
+        <button type="submit" name="action" value="surrender" class="btn btn-primary">Surrender</button>';
+            }
+         ?>
+
+
         <button type="submit" name="reset" class="btn btn-primary">Reset</button>
 
 
